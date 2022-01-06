@@ -9,6 +9,7 @@ import java.awt.*;
  * @version @version v.1.0.0 date:21/11/2021
  */
 public class Header extends JLabel {
+
     /**
      * Constructor of the Header class
      * @param title String that contains Header text
@@ -17,8 +18,9 @@ public class Header extends JLabel {
     public Header(String title, Color colorBackground){
         this.setText(title);
         this.setBackground(colorBackground);
+        this.setSize(getWidth(), getHeight());
         this.setForeground(new Color(255,255,255));
-        this.setFont(new Font(Font.DIALOG,Font.BOLD,20));
+        this.setFont(new Font(Font.DIALOG,Font.BOLD,26));
         this.setHorizontalAlignment(JLabel.CENTER);
         this.setVerticalAlignment(JLabel.CENTER);
         this.setOpaque(true);

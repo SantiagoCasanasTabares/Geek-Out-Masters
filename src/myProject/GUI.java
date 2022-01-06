@@ -10,7 +10,10 @@ import java.awt.*;
  */
 public class GUI extends JFrame {
 
+    private static final String AYUDA = "Aqí se explicará el juego.";
+
     private Header headerProject;
+    private Panel panel;
 
     /**
      * Constructor of GUI class
@@ -19,13 +22,20 @@ public class GUI extends JFrame {
         initGUI();
 
         //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
+        this.setTitle("geek out");
+        this.setSize(776,535);
         //this.pack();
-        this.setResizable(true);
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Container contentpane = getContentPane();
+        panel = new Panel();
+        contentpane.add(panel);
+
+
+
     }
 
     /**
@@ -34,11 +44,21 @@ public class GUI extends JFrame {
      */
     private void initGUI() {
         //Set up JFrame Container's Layout
+        this.getContentPane().setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
         //Create Listener Object and Control Object
         //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
+        headerProject = new Header("Geek Out: Masters", Color.BLACK);
+        headerProject.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        constraints.gridx=0;
+        constraints.gridy=0;
+        constraints.gridwidth=0;
+        constraints.fill=GridBagConstraints.HORIZONTAL;
+        this.add(headerProject,constraints); //Change this line if you change JFrame Container's Layout
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        //fondo
+
     }
 
     /**
