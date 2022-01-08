@@ -8,13 +8,13 @@ import java.awt.*;
  * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame  {
 
     private static final String AYUDA = "Aqí se explicará el juego.";
 
     private Header headerProject;
-    private Panel panel;
     private ImageIcon fondoTitulo;
+    private PanelFondo fondo;
 
     /**
      * Constructor of GUI class
@@ -30,11 +30,6 @@ public class GUI extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        /*Container contentpane = getContentPane();
-        panel = new Panel();
-        contentpane.add(panel);*/
-
 
 
     }
@@ -56,8 +51,14 @@ public class GUI extends JFrame {
 
 
         //fondo
+        fondo = new PanelFondo();
+        this.add(fondo, BorderLayout.CENTER);
+        this.pack();
 
     }
+
+
+
 
     /**
      * Main process of the Java program
