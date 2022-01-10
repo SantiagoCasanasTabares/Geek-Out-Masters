@@ -9,18 +9,18 @@ import java.awt.*;
  * @version @version v.1.0.0 date:21/11/2021
  */
 public class Header extends JLabel {
+
+
+
     /**
      * Constructor of the Header class
-     * @param title String that contains Header text
-     * @param colorBackground Color object to be assigned for the Header background
+     * @param icon image in the tittle
      */
-    public Header(String title, Color colorBackground){
-        this.setText(title);
-        this.setBackground(colorBackground);
+    public Header(Icon icon){
+        this.setIcon(icon);
+        this.setSize(getWidth(), getHeight());
         this.setForeground(new Color(255,255,255));
-        this.setFont(new Font(Font.DIALOG,Font.BOLD,20));
         this.setHorizontalAlignment(JLabel.CENTER);
-        this.setVerticalAlignment(JLabel.CENTER);
         this.setOpaque(true);
     }
 }

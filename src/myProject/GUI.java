@@ -8,9 +8,13 @@ import java.awt.*;
  * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame  {
+
+    private static final String AYUDA = "Aqí se explicará el juego.";
 
     private Header headerProject;
+    private ImageIcon fondoTitulo;
+    private PanelFondo fondo;
 
     /**
      * Constructor of GUI class
@@ -19,13 +23,15 @@ public class GUI extends JFrame {
         initGUI();
 
         //Default JFrame configuration
-        this.setTitle("The Title app");
-        this.setSize(200,100);
+        this.setTitle("geek out");
+        this.setSize(770,535);
         //this.pack();
-        this.setResizable(true);
+        this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
     }
 
     /**
@@ -34,12 +40,25 @@ public class GUI extends JFrame {
      */
     private void initGUI() {
         //Set up JFrame Container's Layout
+
         //Create Listener Object and Control Object
         //Set up JComponents
-        headerProject = new Header("Header ...", Color.BLACK);
 
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        //titulo
+        fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
+        headerProject = new Header(fondoTitulo);
+        this.add(headerProject, BorderLayout.NORTH);
+
+
+        //fondo
+        fondo = new PanelFondo();
+        this.add(fondo, BorderLayout.CENTER);
+        this.pack();
+
     }
+
+
+
 
     /**
      * Main process of the Java program
