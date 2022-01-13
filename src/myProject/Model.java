@@ -25,7 +25,7 @@ public class Model {
         }else if(valorDeLaCara(dadoSeleccionado1)=="Nave"){
             //dadosInactivos.add(dadoSeleccionado2);
         }else if(valorDeLaCara(dadoSeleccionado1)=="Superheroe"){
-            dadoSeleccionado2.caraOpuesta();
+            //dadoSeleccionado2.caraOpuesta();
         }
     }
 
@@ -46,8 +46,8 @@ public class Model {
         return caraDado;
     }
 
-    private int caraOpuesta(){
+    /*private int caraOpuesta(){
 
-    }
+    }*/
 
 }
