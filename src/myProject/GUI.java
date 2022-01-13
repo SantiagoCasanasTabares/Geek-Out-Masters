@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+
 
 /**
  * This class is used for ...
@@ -12,9 +14,8 @@ import java.awt.event.ActionListener;
  */
 public class GUI extends JFrame  {
 
-    private static final String AYUDA = "Aqí se explicará el juego.";
-
     private PanelFondo fondo;
+
 
     /**
      * Constructor of GUI class
@@ -24,8 +25,8 @@ public class GUI extends JFrame  {
 
         //Default JFrame configuration
         this.setTitle("geek out");
-        this.setSize(770,535);
-        //this.pack();
+        //this.setSize(770,630);
+        this.pack();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -42,7 +43,16 @@ public class GUI extends JFrame  {
         fondo = new PanelFondo();
         setContentPane(fondo);
 
+
         //Create Listener Object and Control Object
+        //Set up JComponents
+
+
+//----------------------------------------------------------------------------------------------------------------------
+        //Create Listener Object and Control Object
+
+
+//----------------------------------------------------------------------------------------------------------------------
         //Set up JComponents
 
 

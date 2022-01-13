@@ -1,15 +1,24 @@
 package myProject;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class PanelFondo extends JPanel  {
 
+    private static final String AYUDA = "Aqí se explicará el juego.";
+
     private JButton boton;
-    private ImageIcon fondo, fondoTitulo;
+    private ImageIcon fondo, fondoTitulo, dados;
     private Header titulo;
+    private JPanel dadosInactivos, dadosUsados;
+    private JLabel dadoSinUso;
+
+
 
     public PanelFondo() {
         init();
@@ -17,30 +26,70 @@ public class PanelFondo extends JPanel  {
         setOpaque(false);
         this.setSize(776, 571);
         repaint();
-
-
-
+        this.setSize(getWidth(), getHeight());
+        repaint();
     }
 
     private void init() {
         //set up layout
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
+
+
         //set up components
         fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
         titulo = new Header(fondoTitulo);
         constraints.gridx=0;
         constraints.gridy=0;
-        constraints.gridwidth=0;
-        constraints.fill=GridBagConstraints.HORIZONTAL;
+        constraints.gridwidth=2;
         this.add(titulo,constraints); //Change this line if you change JFrame Container's Layout
 
-        boton = new JButton("boton");
+
+        //dados
+        dados = new ImageIcon(getClass().getResource("/recursos/42.png"));
+        dadoSinUso = new JLabel(dados);
+
+
+        //dados Usados
+        dadosUsados = new JPanel();
+        dadosUsados.setPreferredSize(new Dimension(388, 260));
+        TitledBorder titledBorderUsados = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados usados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        dadosUsados.setBorder(titledBorderUsados);
+        titledBorderUsados.setTitleColor(Color.WHITE);
+        dadosUsados.setOpaque(false);
+        constraints.gridx=0;
+        constraints.gridy=1;
+        constraints.gridwidth=1;
+        //constraints.gridheight=1;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(dadosUsados, constraints);
+
+
+
+        //dados inactivos
+        dadosInactivos = new JPanel();
+        dadosInactivos.setPreferredSize(new Dimension(388,260));
+        TitledBorder titledInactivos = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados usados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        dadosInactivos.setBorder(titledInactivos);
+        titledInactivos.setTitleColor(Color.WHITE);
+        dadosInactivos.setOpaque(false);
         constraints.gridx=1;
         constraints.gridy=1;
-        this.add(boton,constraints);
+        constraints.gridwidth=1;
+        //constraints.gridheight=1;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(dadosInactivos,constraints);
+
+
+
+
 
     }
+
+
+
 
 
     @Override
@@ -62,3 +111,4 @@ public class PanelFondo extends JPanel  {
 
 
 }
+
