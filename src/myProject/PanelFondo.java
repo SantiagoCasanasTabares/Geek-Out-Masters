@@ -2,16 +2,18 @@ package myProject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class PanelFondo extends JPanel {
+public class PanelFondo extends JPanel  {
 
     private ImageIcon imagenFondo;
+    public JButton boton;
 
     public PanelFondo() {
         this.setSize(776, 571);
         imagenFondo = new ImageIcon(getClass().getResource("/recursos/fondo.jpg"));
     }
-
 
 
     @Override
@@ -22,4 +24,12 @@ public class PanelFondo extends JPanel {
         super.paint(fondo);
     }
 
+    public static void main(String[] args){
+        EventQueue.invokeLater(() -> {
+            PanelFondo miProjectGUI = new PanelFondo();
+        });
+    }
+
+
 }
+

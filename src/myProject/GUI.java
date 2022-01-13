@@ -37,10 +37,6 @@ public class GUI extends JFrame  {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-
-
-
-
     }
 
     /**
@@ -58,15 +54,16 @@ public class GUI extends JFrame  {
 //----------------------------------------------------------------------------------------------------------------------
         //Set up JComponents
 
+
         //titulo
         fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
         headerProject = new Header(fondoTitulo);
-        this.add(headerProject, BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
+        this.add(headerProject, BorderLayout.NORTH);
 
         //fondo
-       /* fondo = new PanelFondo();
+        fondo = new PanelFondo();
         this.add(fondo, BorderLayout.CENTER);
-        this.pack();*/
+        this.pack();
 
 
 
@@ -106,7 +103,7 @@ public class GUI extends JFrame  {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource()==salir){
+            if (e.getSource()==fondo.boton){
                 System.exit(0);
             }
         }
