@@ -26,8 +26,8 @@ public class GUI extends JFrame  {
 
         //Default JFrame configuration
         this.setTitle("geek out");
-        this.setSize(770,630);
-        //this.pack();
+        //this.setSize(770,630);
+        this.pack();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
