@@ -47,9 +47,9 @@ public class PanelFondo extends JPanel  {
         //dados Usados
         dadosUsados = new JPanel();
         dadosUsados.setPreferredSize(new Dimension(388, 260));
-        TitledBorder titledBorder = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados Inactivos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
-        dadosUsados.setBorder(titledBorder);
-        titledBorder.setTitleColor(Color.WHITE);
+        TitledBorder titledBorderUsados = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados usados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        dadosUsados.setBorder(titledBorderUsados);
+        titledBorderUsados.setTitleColor(Color.WHITE);
         dadosUsados.setOpaque(false);
         constraints.gridx=0;
         constraints.gridy=1;
@@ -64,8 +64,9 @@ public class PanelFondo extends JPanel  {
         //dados inactivos
         dadosInactivos = new JPanel();
         dadosInactivos.setPreferredSize(new Dimension(388,260));
-        dadosInactivos.setBorder(titledBorder);
-        titledBorder.setTitleColor(Color.WHITE);
+        TitledBorder titledInactivos = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados usados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
+        dadosInactivos.setBorder(titledInactivos);
+        titledInactivos.setTitleColor(Color.WHITE);
         dadosInactivos.setOpaque(false);
         constraints.gridx=1;
         constraints.gridy=1;
