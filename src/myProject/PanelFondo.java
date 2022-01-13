@@ -7,27 +7,57 @@ import java.awt.event.ActionListener;
 
 public class PanelFondo extends JPanel  {
 
-    private ImageIcon imagenFondo;
-    public JButton boton;
+    private JButton boton;
+    private ImageIcon fondo, fondoTitulo;
+    private Header titulo;
 
     public PanelFondo() {
+        init();
+        fondo = new ImageIcon(getClass().getResource("/recursos/fondo.jpg"));
+        setOpaque(false);
         this.setSize(776, 571);
-        imagenFondo = new ImageIcon(getClass().getResource("/recursos/fondo.jpg"));
+        repaint();
+
+
+
+    }
+
+    private void init() {
+        //set up layout
+        setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        //set up components
+        fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
+        titulo = new Header(fondoTitulo);
+        constraints.gridx=0;
+        constraints.gridy=0;
+        constraints.gridwidth=0;
+        constraints.fill=GridBagConstraints.HORIZONTAL;
+        this.add(titulo,constraints); //Change this line if you change JFrame Container's Layout
+
+        boton = new JButton("boton");
+        constraints.gridx=1;
+        constraints.gridy=1;
+        this.add(boton,constraints);
+
     }
 
 
     @Override
-    public void paint(Graphics fondo){
-        fondo.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
-        setOpaque(false);//si quito esta linea no muestra fondo
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
 
-        super.paint(fondo);
     }
+    private class Escucha implements ActionListener {
 
-    public static void main(String[] args){
-        EventQueue.invokeLater(() -> {
-            PanelFondo miProjectGUI = new PanelFondo();
-        });
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource()==boton) {
+                JOptionPane.showMessageDialog(null, "hola");
+            }
+
+        }
     }
 
 

@@ -15,11 +15,8 @@ public class GUI extends JFrame  {
 
     private static final String AYUDA = "Aqí se explicará el juego.";
 
-    private Header headerProject;
-    private ImageIcon fondoTitulo, imagenFondo;
     private PanelFondo fondo;
-    private JButton salir;
-    private Escucha escucha;
+
 
     /**
      * Constructor of GUI class
@@ -45,40 +42,16 @@ public class GUI extends JFrame  {
      */
     private void initGUI() {
         //Set up JFrame Container's Layout
+        fondo = new PanelFondo();
+        setContentPane(fondo);
 
 //----------------------------------------------------------------------------------------------------------------------
-
         //Create Listener Object and Control Object
-        escucha = new Escucha();
+
 
 //----------------------------------------------------------------------------------------------------------------------
         //Set up JComponents
 
-
-        //titulo
-        fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
-        headerProject = new Header(fondoTitulo);
-        this.add(headerProject, BorderLayout.NORTH);
-
-        //fondo
-        fondo = new PanelFondo();
-        this.add(fondo, BorderLayout.CENTER);
-        this.pack();
-
-
-
-
-
-
-
-    }
-
-    @Override
-    public void paint(Graphics fondo) {
-        imagenFondo = new ImageIcon(getClass().getResource("/recursos/fondo.jpg"));
-        fondo.drawImage(imagenFondo.getImage(), 0, 0, getWidth(), getHeight(), this);
-
-        super.paintComponents(fondo);
     }
 
 
@@ -98,14 +71,5 @@ public class GUI extends JFrame  {
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha extends MouseAdapter implements ActionListener {
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            if (e.getSource()==fondo.boton){
-                System.exit(0);
-            }
-        }
-    }
 }
