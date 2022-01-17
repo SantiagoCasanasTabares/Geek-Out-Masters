@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
  */
 public class GUI extends JFrame  {
 
-    private static final String AYUDA = "Aqí se explicará el juego.";
 
     private PanelFondo fondo;
 
@@ -26,12 +25,14 @@ public class GUI extends JFrame  {
 
         //Default JFrame configuration
         this.setTitle("geek out");
+        this.setUndecorated(true);
         //this.setSize(770,630);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
 
     }
