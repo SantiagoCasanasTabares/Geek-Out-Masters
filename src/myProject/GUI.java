@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
-
 /**
  * This class is used for ...
  * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
 public class GUI extends JFrame  {
+
 
     private PanelFondo fondo;
 
@@ -25,12 +25,15 @@ public class GUI extends JFrame  {
 
         //Default JFrame configuration
         this.setTitle("geek out");
+        this.setUndecorated(true);
         //this.setSize(770,630);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
 
     }
 
@@ -43,18 +46,12 @@ public class GUI extends JFrame  {
         fondo = new PanelFondo();
         setContentPane(fondo);
 
-
-        //Create Listener Object and Control Object
-        //Set up JComponents
-
-
 //----------------------------------------------------------------------------------------------------------------------
         //Create Listener Object and Control Object
 
 
 //----------------------------------------------------------------------------------------------------------------------
         //Set up JComponents
-
 
     }
 
