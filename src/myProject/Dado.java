@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Dado {
     private int cara;
-    private String dibujo;
 
     public int getCara(){
         Random aleatorio = new Random();
