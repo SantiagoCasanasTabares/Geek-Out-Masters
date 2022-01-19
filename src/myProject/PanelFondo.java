@@ -6,23 +6,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class PanelFondo extends JPanel  {
 
-    private static final String AYUDA = "Instrucciones \n"
-            + "El juego consiste en lograr salvar dados en cada ronda de juego, dejando la cara 42 en todos los dados posibles "
-            + "\nen los dados activos, pero si queda el dragon visible, y no tienes movimientos por hacer, perderás tu avance. "
-            + "\nTienes 5 rondas en las cuales inicias con 7 dados activos y 3 inactivos para lograr salvar 6 dados, o hacer más "
-            + "\nde 30 puntos, ganarás si lo logras. Las acciones de los dados son: "
-            + "\n-El Meeple permite relanzar un dado de los inactivos. "
-            + "\n-La Nave Espacial envía un un dado activo a los inactivos. "
-            + "\n-El Superhéroe permite mostrar la cara opuesta de cualquier dado activo, excepto la de él mismo. "
-            + "\n-El Corazón permite tomar un dado de la sección de dados inactivos y lanzarlo a la sección de activos. "
-            + "\n-El Dragón es la cara que se quiere evitar, ya que si hay caras de este al final de la ronda, perderás tus puntos. "
-            + "\n-El 42 es cara que permite sumar puntos al final de la ronda. "
-            + "\nFinaliza el juego cuando llegues al puntaje o te quedes sin rondas (5) disponibles. Mucha suerte. ";
+    private static final String AYUDA = "Aquí se explicará el juego.";
 
     private JButton salir, ayuda, inicio;
     private ImageIcon fondo, fondoTitulo, dados;
@@ -30,10 +17,7 @@ public class PanelFondo extends JPanel  {
     private JButton dado1,dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
     private JPanel dadosInactivos, dadosUsados, dadosEnJuego, panelResultados;
     private Escucha escucha;
-    private Model model;
     private JTextArea mensajeSalida, Puntaje;
-
-
 
 
     public PanelFondo() {
@@ -42,7 +26,6 @@ public class PanelFondo extends JPanel  {
         setOpaque(false);
         this.setSize(getWidth(), getHeight());
         repaint();
-        model = new Model();
 
     }
 
@@ -102,9 +85,6 @@ public class PanelFondo extends JPanel  {
         //titulo
         fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
         titulo = new Header(fondoTitulo);
-        titulo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        titulo.addMouseListener(escucha);
-        titulo.addMouseMotionListener(escucha);
         constraints.gridx=0;
         constraints.gridy=0;
         constraints.gridwidth=2;
@@ -189,7 +169,7 @@ public class PanelFondo extends JPanel  {
         add(panelResultados,constraints);
 
         //puntaje
-        Puntaje = new JTextArea(7, 31);
+        Puntaje = new JTextArea(6, 31);
 
 
 
@@ -229,9 +209,6 @@ public class PanelFondo extends JPanel  {
 
 
 
-
-
-
     }
 
 
@@ -241,31 +218,27 @@ public class PanelFondo extends JPanel  {
         g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
 
     }
-    private class Escucha extends MouseAdapter implements ActionListener {
-
+    private class Escucha implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
             if (e.getSource()==ayuda) {
-                JOptionPane.showMessageDialog(null, AYUDA);
+                JOptionPane.showMessageDialog(null, "hola");
 
-                    }else if (e.getSource()==salir) {
-                        System.exit(0);
+            }else if (e.getSource()==salir) {
+                System.exit(0);
 
-                         }else if (e.getSource()==inicio) {
-                            panelResultados.removeAll();
-                            panelResultados.add(mensajeSalida);
-                            panelResultados.add(Puntaje);
-                            mensajeSalida.setText(model.getEstadoToStringRonda()[0]);
-                            mensajeSalida.setRows(7);
-                            Puntaje.setText(model.getEstadoToStringPuntos()[0]);
+            }else if (e.getSource()==inicio) {
+                panelResultados.removeAll();
+                panelResultados.add(mensajeSalida);
+                panelResultados.add(Puntaje);
+                mensajeSalida.setText("Aquí se dicen la ronda que va");
+                mensajeSalida.setRows(6);
+                Puntaje.setText("Aquí se dirá el puntaje que lleva el jugador");
             }
 
         }
-
-
-
     }
 
 
