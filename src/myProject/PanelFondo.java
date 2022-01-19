@@ -9,7 +9,18 @@ import java.awt.event.ActionListener;
 
 public class PanelFondo extends JPanel  {
 
-    private static final String AYUDA = "Aquí se explicará el juego.";
+    private static final String AYUDA = "Instrucciones \n"
+            + "El juego consiste en lograr salvar dados en cada ronda de juego, dejando la cara 42 en todos los dados posibles "
+            + "\nen los dados activos, pero si queda el dragon visible, y no tienes movimientos por hacer, perderás tu avance. "
+            + "\nTienes 5 rondas en las cuales inicias con 7 dados activos y 3 inactivos para lograr salvar 6 dados, o hacer más "
+            + "\nde 30 puntos, ganarás si lo logras. Las acciones de los dados son: "
+            + "\n-El Meeple permite relanzar un dado de los inactivos. "
+            + "\n-La Nave Espacial envía un un dado activo a los inactivos. "
+            + "\n-El Superhéroe permite mostrar la cara opuesta de cualquier dado activo, excepto la de él mismo. "
+            + "\n-El Corazón permite tomar un dado de la sección de dados inactivos y lanzarlo a la sección de activos. "
+            + "\n-El Dragón es la cara que se quiere evitar, ya que si hay caras de este al final de la ronda, perderás tus puntos. "
+            + "\n-El 42 es cara que permite sumar puntos al final de la ronda. "
+            + "\nFinaliza el juego cuando llegues al puntaje o te quedes sin rondas (5) disponibles. Mucha suerte. ";
 
     private JButton salir, ayuda, inicio;
     private ImageIcon fondo, fondoTitulo, dados;
