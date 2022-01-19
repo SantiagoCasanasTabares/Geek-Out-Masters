@@ -15,6 +15,8 @@ public class GUI extends JFrame  {
 
 
     private PanelFondo fondo;
+    public JFrame movimientoVentana;
+
 
 
     /**
@@ -45,6 +47,7 @@ public class GUI extends JFrame  {
         //Set up JFrame Container's Layout
         fondo = new PanelFondo();
         setContentPane(fondo);
+
 
 //----------------------------------------------------------------------------------------------------------------------
         //Create Listener Object and Control Object
