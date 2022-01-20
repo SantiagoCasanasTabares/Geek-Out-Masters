@@ -35,61 +35,7 @@ public class Model {
     }
 
 
-    public String valorDeLaCara(Dado dado){
-        if(dado.getCara()==1){
-            caraDado= "Meeple";
-        }else if(dado.getCara()==2){
-            caraDado= "Nave";
-        }else if(dado.getCara()==3){
-            caraDado= "Superheroe";
-        }else if(dado.getCara()==4){
-            caraDado= "Corazon";
-        }else if(dado.getCara()==5){
-            caraDado= "Dragon";
-        }else if(dado.getCara()==6){
-            caraDado= "42";
-        }
-        return caraDado;
-    }
 
-
-    public void accionesDeLasCaras(){
-        if (valorDeLaCara(dadoSeleccionado1)=="Meeple"){
-            dadoSeleccionado2.getCara();
-        }else if(valorDeLaCara(dadoSeleccionado1)=="Nave"){
-            dadosInactivos.add(dadoSeleccionado2);
-        }else if(valorDeLaCara(dadoSeleccionado1)=="Superheroe"){
-            caraOpuesta(dadoSeleccionado2);
-        }
-    }
-
-
-
-    private int caraOpuesta(Dado dadoAVoltear){
-        valorCaraOpuesta=dadoAVoltear.getCara();
-
-        if(valorDeLaCara(dadoAVoltear)=="Meeple"){
-            valorCaraOpuesta=2;
-        }else if(valorDeLaCara(dadoAVoltear)=="Nave"){
-            valorCaraOpuesta=1;
-        }else if(valorDeLaCara(dadoAVoltear)=="Superheroe"){
-            valorCaraOpuesta=5;
-        }else if(valorDeLaCara(dadoAVoltear)=="Corazon"){
-            valorCaraOpuesta=6;
-        }else if(valorDeLaCara(dadoAVoltear)=="Dragon"){
-            valorCaraOpuesta=3;
-        }else if(valorDeLaCara(dadoAVoltear)=="42"){
-            valorCaraOpuesta=4;
-        }
-        return valorCaraOpuesta;
-    }
-
-    public void relanzarDado(int dadoARelanzar) {
-
-        nuevoDado = new Dado();
-        dadosActivos.set(dadoARelanzar, nuevoDado);
-
-    }
 
     public String[] getEstadoToStringRonda() {
         switch (estado) {
