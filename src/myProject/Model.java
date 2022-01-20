@@ -7,19 +7,19 @@ import java.util.Random;
 
 public class Model {
     public List<Dado> dadosActivos,dadosUsados,dadosInactivos;
-    private String caraDado;
-    private Dado dadoSeleccionado1, dadoSeleccionado2, nuevoDado;
-    private int valorCaraOpuesta, estado, puntos;
+    private Dado dado;
+    private int valorCaraOpuesta, estado, puntos, ronda;
     private String estadoToStringRonda[], estadoToStringPuntos[];
 
     public Model(){
         dadosActivos = new ArrayList<Dado>();
         dadosInactivos = new ArrayList<Dado>();
         dadosUsados = new ArrayList<Dado>();
-        dadoSeleccionado1 = new Dado();
-        dadoSeleccionado2 = new Dado();
+        //dadoSeleccionado1 = new Dado();
+        //dadoSeleccionado2 = new Dado();
         tiroInicial();
         estado=1;
+        ronda=0;
         estadoToStringRonda = new String[1];
         estadoToStringPuntos = new String[1];
 
@@ -32,6 +32,33 @@ public class Model {
             dadosActivos.get(i).getCara();
 
         }
+    }
+
+    public int puntosAcumulados(int cuantosCuatroDos) {
+        cuantosCuatroDos = dado.conteoCuatroDos;
+
+        if(cuantosCuatroDos==1) {
+            puntos=1;
+        }else if (cuantosCuatroDos==2) {
+            puntos=3;
+        }else if (cuantosCuatroDos==3) {
+            puntos=6;
+        }else if (cuantosCuatroDos==4) {
+            puntos=10;
+        }else if (cuantosCuatroDos==5) {
+            puntos=15;
+        }else if (cuantosCuatroDos==6) {
+            puntos=21;
+        }else if (cuantosCuatroDos==7) {
+            puntos=28;
+        }else if (cuantosCuatroDos==8) {
+            puntos=36;
+        }else if (cuantosCuatroDos==9) {
+            puntos=45;
+        }else if (cuantosCuatroDos==10) {
+            puntos=55;
+        }
+        return puntos;
     }
 
 

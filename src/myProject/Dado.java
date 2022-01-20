@@ -6,9 +6,11 @@ import java.util.Random;
 public class Dado {
     private int cara;
     private String caraDado;
-    private Dado dadoSeleccionado1, dadoSeleccionado2, dadoRelanzado, añadirDado;
+    private Dado dadoSeleccionado1, dadoSeleccionado2, dadoRelanzado, añadirDado = new Dado();
     public int valorCaraOpuesta, puntos, conteoCuatroDos;
     public List<Dado> dadosActivos,dadosUsados,dadosInactivos;
+
+
 
     public int getCara(){
         Random aleatorio = new Random();
@@ -36,11 +38,21 @@ public class Dado {
 
     public void accionesDeLasCaras(){
         if (valorDeLaCara(dadoSeleccionado1)=="Meeple"){
-            dadoSeleccionado2.getCara();
+            relanzarDado(dadoSeleccionado2);
+            dadosActivos.remove(dadoSeleccionado1);
+            dadosUsados.add(añadirDado);
         }else if(valorDeLaCara(dadoSeleccionado1)=="Nave"){
             dadosInactivos.add(dadoSeleccionado2);
+            dadosActivos.remove(dadoSeleccionado1);
+            dadosUsados.add(añadirDado);
         }else if(valorDeLaCara(dadoSeleccionado1)=="Superheroe"){
             caraOpuesta(dadoSeleccionado2);
+            dadosActivos.remove(dadoSeleccionado1);
+            dadosUsados.add(añadirDado);
+        }else if(valorDeLaCara(dadoSeleccionado1)=="Corazon"){
+            dadoExtra();
+            dadosActivos.remove(dadoSeleccionado1);
+            dadosUsados.add(añadirDado);
         }
     }
 
@@ -66,24 +78,18 @@ public class Dado {
     }
 
     //meeple
-    public void relanzarDado(int dadoARelanzar) {
-
+    public void relanzarDado(Dado dadoARelanzar) {
         dadoRelanzado = new Dado();
-        dadosActivos.set(dadoARelanzar, dadoRelanzado);
+        dadosActivos.set(dadoARelanzar.getCara(), dadoRelanzado);
 
     }
 
     //corazon
     public void dadoExtra() {
-        añadirDado = new Dado();
         dadosActivos.add(añadirDado);
         dadosInactivos.remove(0);
     }
 
-    //cohete
-    public void removerDado(int dadoAEliminar) {
-        dadosActivos.remove(dadoAEliminar);
-    }
 
     //dragon
     public void pierdepuntos() {
@@ -95,7 +101,6 @@ public class Dado {
         for (int i=0;i<dadosActivos.size();i++){
             if(dadosActivos.get(i).getCara()==6){
                 conteoCuatroDos++;
-                i++;
             }
         }
         return conteoCuatroDos;
