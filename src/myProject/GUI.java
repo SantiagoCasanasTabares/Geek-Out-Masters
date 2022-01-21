@@ -15,6 +15,7 @@ public class GUI extends JFrame  {
 
 
     private PanelFondo fondo;
+    private Model model;
 
 
     /**

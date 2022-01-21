@@ -4,75 +4,129 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
-    private List<Dado> dadosActivos,dadosUsados,dadosInactivos;
-    private String caraDado;
-    private Dado dadoSeleccionado1, dadoSeleccionado2;
-    private int valorCaraOpuesta;
+    public List<Dado> dadosActivos,dadosUsados,dadosInactivos;
+    private Dado dado;
+    private boolean ganoPartida;
+    private int valorCaraOpuesta, estado, puntos, ronda;
+    private String estadoToStringRonda[], estadoToStringPuntos[];
 
     public Model(){
-        dadosActivos = new ArrayList<Dado>();
-        dadosInactivos = new ArrayList<Dado>();
-        dadosUsados = new ArrayList<Dado>();
-        dadoSeleccionado1 = new Dado();
-        dadoSeleccionado2 = new Dado();
+        //dadosActivos = new ArrayList<Dado>();
+        //dadosInactivos = new ArrayList<Dado>();
+        //dadosUsados = new ArrayList<Dado>();
+        //dadoSeleccionado1 = new Dado();
+        //dadoSeleccionado2 = new Dado();
+        tiroInicial();
+        ronda=0;
+        dado=new Dado();
+        estadoToStringRonda = new String[1];
+        estadoToStringPuntos = new String[1];
+        ganoPartida=false;
+
+
+
+    }
+
+    public void terminaRonda(){
+
+    }
+
+
+    public void determinarEstado() {
+
     }
 
     public void tiroInicial(){
-        for(int i=0;i<7;i++){
+        for(int i=0;i<dadosActivos.size();i++){
             dadosActivos.get(i).getCara();
+
         }
     }
 
-    public void accionesDeLasCaras(){
-        if (valorDeLaCara(dadoSeleccionado1)=="Meeple"){
-            dadoSeleccionado2.getCara();
-        }else if(valorDeLaCara(dadoSeleccionado1)=="Nave"){
-            dadosInactivos.add(dadoSeleccionado2);
-        }else if(valorDeLaCara(dadoSeleccionado1)=="Superheroe"){
-            caraOpuesta(dadoSeleccionado2);
-        }/*else if(){
+    public int puntosAcumulados(int cuantosCuatroDos) {
+        cuantosCuatroDos = dado.conteoCuatroDos;
 
-        }else if(){
-
-        }else if(){
-
-        }*/
+        if(cuantosCuatroDos==1) {
+            puntos=1;
+        }else if (cuantosCuatroDos==2) {
+            puntos=3;
+        }else if (cuantosCuatroDos==3) {
+            puntos=6;
+        }else if (cuantosCuatroDos==4) {
+            puntos=10;
+        }else if (cuantosCuatroDos==5) {
+            puntos=15;
+        }else if (cuantosCuatroDos==6) {
+            puntos=21;
+        }else if (cuantosCuatroDos==7) {
+            puntos=28;
+        }else if (cuantosCuatroDos==8) {
+            puntos=36;
+        }else if (cuantosCuatroDos==9) {
+            puntos=45;
+        }else if (cuantosCuatroDos==10) {
+            puntos=55;
+        }
+        return puntos;
     }
 
-    public String valorDeLaCara(Dado dado){
-        if(dado.getCara()==1){
-            caraDado= "Meeple";
-        }else if(dado.getCara()==2){
-            caraDado= "Nave";
-        }else if(dado.getCara()==3){
-            caraDado= "Superheroe";
-        }else if(dado.getCara()==4){
-            caraDado= "Corazon";
-        }else if(dado.getCara()==5){
-            caraDado= "Dragon";
-        }else if(dado.getCara()==6){
-            caraDado= "42";
+    public boolean ganoPartida(int puntaje) {
+        puntaje=puntos;
+        if (puntaje>30) {
+            return true;
+        }else{
+            return false;
         }
-        return caraDado;
     }
 
-    private int caraOpuesta(Dado dado2){
-        valorCaraOpuesta=dado2.getCara();
 
-        if(valorDeLaCara(dado2)=="Meeple"){
-            valorCaraOpuesta=2;
-        }else if(valorDeLaCara(dado2)=="Nave"){
-            valorCaraOpuesta=1;
-        }else if(valorDeLaCara(dado2)=="Superheroe"){
-            valorCaraOpuesta=5;
-        }else if(valorDeLaCara(dado2)=="Corazon"){
-            valorCaraOpuesta=6;
-        }else if(valorDeLaCara(dado2)=="Dragon"){
-            valorCaraOpuesta=3;
-        }else if(valorDeLaCara(dado2)=="42"){
-            valorCaraOpuesta=4;
+
+    public String[] getEstadoToStringRonda() {
+        switch (estado) {
+            case 1: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Te encuentras en la ronda 1 de Juego, aun "+
+                    "tienes 4 rondas mas para lograr 30 puntos.";
+                break;
+            case 2: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Te encuentras en la ronda 2 de Juego, aun "+
+                    "tienes 3 rondas mas para lograr 30 puntos.";
+                break;
+            case 3: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Te encuentras en la ronda 3 de Juego, aun "+
+                    "tienes 2 rondas mas para lograr 30 puntos.";
+                break;
+            case 4: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Te encuentras en la ronda 4 de Juego, solo "+
+                    "tienes 1 ronda mas para lograr 30 puntos.";
+                break;
+            case 5: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Te encuentras en la ronda 5 de Juego, es "+
+                    " la ultima ronda para conseguir 30 puntos";
+                break;
+            case 6: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "FELICITAIONES!! Ganaste al conseguir "+puntos+" puntos";
+                break;
+            case 7: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
+                    "Perdiste, solo conseguiste "+puntos+" Y no te quedan "+
+                    "mas rondas de juego.";
+                break;
+
         }
-        return valorCaraOpuesta;
+        return estadoToStringRonda;
+    }
+
+    public String[] getEstadoToStringPuntos() {
+        switch (estado) {
+            case 1: estadoToStringPuntos[0] = "                      PUNTAJE                    "+
+                    "Tienes un tienes un acumulado de "+puntos+" puntos.";
+                break;
+            case 2: estadoToStringPuntos[0] = "                 PUNTAJE                  "+
+                    "Conseguiste un acumulado de "+puntos+" puntos a lo "
+                    +"largo del juego. ";
+                break;
+
+        }
+        return estadoToStringPuntos;
     }
 
 }
