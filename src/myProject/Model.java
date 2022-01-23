@@ -4,47 +4,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
-    public List<Dado> dadosActivos,dadosUsados,dadosInactivos;
     private Dado dado;
-    private boolean ganoPartida;
-    private int valorCaraOpuesta, estado, puntos, ronda;
+    private boolean ganoPartida, terminoRonda;
+    private int valorCaraOpuesta, estado, puntos, ronda, estadoRonda, dadoSalvado;
     private String estadoToStringRonda[], estadoToStringPuntos[];
 
     public Model(){
-        //dadosActivos = new ArrayList<Dado>();
-        //dadosInactivos = new ArrayList<Dado>();
-        //dadosUsados = new ArrayList<Dado>();
-        //dadoSeleccionado1 = new Dado();
-        //dadoSeleccionado2 = new Dado();
         tiroInicial();
-        ronda=0;
+        ronda=1;
         dado=new Dado();
         estadoToStringRonda = new String[1];
         estadoToStringPuntos = new String[1];
         ganoPartida=false;
-
-
-
+        terminoRonda=false;
+        dadoSalvado=0;
     }
 
+    /**
+     *
+     */
     public void terminaRonda(){
-
+        if(dado.conteoCaraCuatroDos()==dado.dadosActivos.size()){
+            terminoRonda=true;
+            estadoRonda=1; //la ronda termino porque solo habia dados con cara "42"
+            ronda++;
+        }else if(dado.conteoDragones()==dado.dadosActivos.size()){
+            terminoRonda=true;
+            estadoRonda=2; //la ronda termino porque solo habia dados con cara "dragon"
+            ronda++;
+        }else if(dado.conteoCaraCuatroDos()+dado.conteoDragones()==dado.dadosActivos.size()){
+            terminoRonda=true;
+            estadoRonda=3;//la ronda termino porque solo hay dados con cara "42" y "dragon"
+            ronda++;
+        }else if(dado.dadosActivos.size()==1  && dado.dadosInactivos.size()==0){
+            terminoRonda=true;
+            estadoRonda=4;//la ronda termino porque solo hay un dado en la seccion de dados activos, siendo este ultimo un corazon y la seccion de dados inactivos esta vacia
+            ronda++;
+        }else if(dado.dadosActivos.size()==1 && dado.dadosActivos.get(0).getCara() != 4){
+            terminoRonda=true;
+            estadoRonda=5;//la ronda termino porque solo hay un dado ya sea "meeple", "superheroe" o "nave".
+            ronda++;
+        }else{
+            terminoRonda=false;
+        }
     }
 
-
+    /**
+     * estado 1: termino la ronda y gano puntos
+     * estado 2: termino la ronda y perdio puntos
+     * estado 3: gano la partida
+     * estado 4: perdio la partida
+     */
     public void determinarEstado() {
-
+        terminaRonda();
+        if(ronda<5 && estadoRonda==1){
+            puntosAcumulados(dado.conteoCaraCuatroDos());
+            dado.dadosActivos.clear();
+            dado.dadosUsados.clear();
+            dado.dadosInactivos.clear();
+            tiroInicial();
+        }else if((estadoRonda==2 || estadoRonda==3) && ronda<5){
+            puntos=0;
+            dado.dadosActivos.clear();
+            dado.dadosUsados.clear();
+            dado.dadosInactivos.clear();
+            tiroInicial();
+        }else if(puntos>30){}
     }
 
     public void tiroInicial(){
-        for(int i=0;i<dadosActivos.size();i++){
-            dadosActivos.get(i).getCara();
-
+        for(int i=0;i<dado.dadosActivos.size();i++){
+           dado.dadosActivos.get(i).getCara();
+           dado.dadosActivos.add(dado.dadosActivos.get(i));
+        }for(int j=0; j<dado.dadosInactivos.size();j++){
+            dado.dadosInactivos.add(dado.dadosInactivos.get(j));
         }
     }
 
     public int puntosAcumulados(int cuantosCuatroDos) {
-        cuantosCuatroDos = dado.conteoCuatroDos;
+        cuantosCuatroDos = dadoSalvado;
 
         if(cuantosCuatroDos==1) {
             puntos=1;
@@ -70,14 +108,21 @@ public class Model {
         return puntos;
     }
 
-    public boolean ganoPartida(int puntaje) {
+    public void dadosSalvados(){
+        terminaRonda();
+        if(terminoRonda==true && estadoRonda==1){
+            dadoSalvado += dado.conteoCaraCuatroDos();
+        }
+    }
+
+    /*public boolean ganoPartida(int puntaje) {
         puntaje=puntos;
         if (puntaje>30) {
             return true;
         }else{
             return false;
         }
-    }
+    }*/
 
 
 
