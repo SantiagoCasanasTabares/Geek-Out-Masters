@@ -1,16 +1,25 @@
 package myProject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Dado {
     private int cara;
     private String caraDado;
-    private Dado dadoSeleccionado1, dadoSeleccionado2, dadoRelanzado, añadirDado = new Dado();
-    public int valorCaraOpuesta, puntos, conteoCuatroDos;
+    private Dado dadoSeleccionado1, dadoSeleccionado2, dadoRelanzado, añadirDado ;
+    public int valorCaraOpuesta, puntos, conteoCuatroDos, conteoDragon;
     public List<Dado> dadosActivos,dadosUsados,dadosInactivos;
 
-
+    public Dado(){
+        dadosActivos = new ArrayList<Dado>(7);
+        dadosInactivos = new ArrayList<Dado>(3);
+        dadosUsados = new ArrayList<Dado>();
+        dadoSeleccionado1 = new Dado();
+        dadoSeleccionado2 = new Dado();
+        añadirDado = new Dado();
+        dadoRelanzado = new Dado();
+    }
 
     public int getCara(){
         Random aleatorio = new Random();
@@ -79,7 +88,6 @@ public class Dado {
 
     //meeple
     public void relanzarDado(Dado dadoARelanzar) {
-        dadoRelanzado = new Dado();
         dadosActivos.set(dadoARelanzar.getCara(), dadoRelanzado);
 
     }
@@ -92,8 +100,13 @@ public class Dado {
 
 
     //dragon
-    public void pierdepuntos() {
-        puntos=0;
+    public int conteoDragones() {
+        for (int i=0;i<dadosActivos.size();i++){
+            if(dadosActivos.get(i).getCara()==5){
+                conteoDragon++;
+            }
+        }
+        return conteoDragon;
     }
 
     //sirve para contar cuantos 42 hay en los dados activos al finalizar la ronda
