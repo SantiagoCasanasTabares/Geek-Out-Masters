@@ -6,18 +6,35 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PanelFondo extends JPanel  {
+public class PanelFondo extends JPanel {
 
-    private static final String AYUDA = "Aquí se explicará el juego.";
+    private static final String AYUDA = "Bienvenido a Geek Out Masters"
+            + "\nEl objetivo de este juego es conseguir la mayor cantidad de puntos"
+            + "\njuntando dados cuya cara visible es la cara 42."
+            + "\nGeek Out Masters no es solo suerte, también importa la estrategia"
+            + "\nya que una vez que se lanzan los dados TODAS las caras deberán ejecutarse:"
+            + "\nLas Naves Espaciales los eliminarán."
+            + "\nLos Superhéroes revelarán su lado oculto."
+            + "\nPor suerte, los Corazones nos brindarán un dado extra"
+            + "\nPero también están los Dragones, quienes causan pérdida."
+            + "\nEl juego está compuesto por:"
+            + "\n¡10 dados de Geek Out!, 1 ayuda memoria, 1 Tarjeta de puntuación.";
 
     private JButton salir, ayuda, inicio;
-    private ImageIcon fondo, fondoTitulo, dados;
+    private ImageIcon fondo, fondoTitulo, dados, imagenDado;
+    private Icon icono;
+    private Model model;
+    //private Dado dado;
     private Header titulo;
-    private JButton dado1,dado2, dado3, dado4, dado5, dado6, dado7, dado8, dado9, dado10;
     private JPanel dadosInactivos, dadosUsados, dadosEnJuego, panelResultados;
     private Escucha escucha;
     private JTextArea mensajeSalida, Puntaje;
+    private ArrayList<JLabel> dadosActivosJlabel, dadosInactivosJlabel, dadosUsadosJlabel;
 
 
     public PanelFondo() {
@@ -34,62 +51,34 @@ public class PanelFondo extends JPanel  {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
+        //dado = new Dado();
+
         //set up Escucha and Action Listener
         escucha = new Escucha();
+        model = new Model();
 
         //set up components
-
-        //dados
-        dados = new ImageIcon(getClass().getResource("/recursos/42.png"));
-        dado1 = new JButton();
-        dado1.setIcon(dados);
-        dado1.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado2 = new JButton();
-        dado2.setIcon(dados);
-        dado2.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado3 = new JButton();
-        dado3.setIcon(dados);
-        dado3.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado4 = new JButton();
-        dado4.setIcon(dados);
-        dado4.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado5 = new JButton();
-        dado5.setIcon(dados);
-        dado5.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado6 = new JButton();
-        dado6.setIcon(dados);
-        dado6.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado7 = new JButton();
-        dado7.setIcon(dados);
-        dado7.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado8 = new JButton();
-        dado8.setIcon(dados);
-        dado8.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado9 = new JButton();
-        dado9.setIcon(dados);
-        dado9.setMargin(new Insets(0, 0, 0, 0));
-        //--------------------
-        dado10 = new JButton();
-        dado10.setIcon(dados);
-        dado10.setMargin(new Insets(0, 0, 0, 0));
-
 
         //titulo
         fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
         titulo = new Header(fondoTitulo);
-        constraints.gridx=0;
-        constraints.gridy=0;
-        constraints.gridwidth=2;
-        this.add(titulo,constraints); //Change this line if you change JFrame Container's Layout
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        this.add(titulo, constraints); //Change this line if you change JFrame Container's Layout
 
+        //inicializacion de dados activos
+        imagenDado = new ImageIcon(getClass().getResource("/recursos/dado.png"));
+        icono = new ImageIcon(this.imagenDado.getImage().getScaledInstance(80, 80, 60));
+        dadosActivosJlabel = new ArrayList();
+        dadosInactivosJlabel = new ArrayList();
+        dadosUsadosJlabel = new ArrayList();
+
+        for (int i = 0; i < 7; i++) {
+            JLabel labelTemp = new JLabel();
+            labelTemp.setIcon(icono);
+            dadosActivosJlabel.add(labelTemp);
+        }
 
 
         //dados Usados
@@ -99,53 +88,58 @@ public class PanelFondo extends JPanel  {
         dadosUsados.setBorder(titledBorderUsados);
         titledBorderUsados.setTitleColor(Color.WHITE);
         dadosUsados.setOpaque(false);
-        constraints.gridx=0;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
         //constraints.gridheight=1;
-        constraints.fill=GridBagConstraints.BOTH;
-        constraints.anchor=GridBagConstraints.CENTER;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.CENTER;
         add(dadosUsados, constraints);
 
-
+        //inicializacion de dados inactivos
+        for (int i = 0; i < 3; i++) {
+            JLabel labelTemp = new JLabel();
+            labelTemp.setIcon(icono);
+            dadosInactivosJlabel.add(labelTemp);
+        }
 
         //dados inactivos
         dadosInactivos = new JPanel();
-        dadosInactivos.setPreferredSize(new Dimension(388,260));
+        dadosInactivos.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledInactivos = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados inactivos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         dadosInactivos.setBorder(titledInactivos);
         titledInactivos.setTitleColor(Color.WHITE);
         dadosInactivos.setOpaque(false);
-        dadosInactivos.add(dado1);
-        dadosInactivos.add(dado2);
-        dadosInactivos.add(dado3);
-        constraints.gridx=1;
-        constraints.gridy=1;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.BOTH;
-        constraints.anchor=GridBagConstraints.CENTER;
-        add(dadosInactivos,constraints);
+
+        for (int i = 0; i < dadosInactivosJlabel.size(); i++) {
+            dadosInactivos.add(dadosInactivosJlabel.get(i));
+        }
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.CENTER;
+        add(dadosInactivos, constraints);
 
         //dados en juego
         dadosEnJuego = new JPanel();
-        dadosEnJuego.setPreferredSize(new Dimension(388,260));
+        dadosEnJuego.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledDadosJuego = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados en juego", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         dadosEnJuego.setBorder(titledDadosJuego);
         titledDadosJuego.setTitleColor(Color.WHITE);
         dadosEnJuego.setOpaque(false);
-        dadosEnJuego.add(dado4);
-        dadosEnJuego.add(dado5);
-        dadosEnJuego.add(dado6);
-        dadosEnJuego.add(dado7);
-        dadosEnJuego.add(dado8);
-        dadosEnJuego.add(dado9);
-        dadosEnJuego.add(dado10);
-        constraints.gridx=0;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.BOTH;
-        constraints.anchor=GridBagConstraints.CENTER;
-        add(dadosEnJuego,constraints);
+
+        for (int i = 0; i < dadosActivosJlabel.size(); i++) {
+            dadosEnJuego.add(dadosActivosJlabel.get(i));
+        }
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.CENTER;
+        add(dadosEnJuego, constraints);
 
         //Mensaje de inicio
         mensajeSalida = new JTextArea(12, 31);
@@ -155,33 +149,32 @@ public class PanelFondo extends JPanel  {
 
         //panel de resultados
         panelResultados = new JPanel();
-        panelResultados.setPreferredSize(new Dimension(388,260));
+        panelResultados.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledPanelResultados = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Resultados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         panelResultados.setBorder(titledPanelResultados);
         titledPanelResultados.setTitleColor(Color.WHITE);
         panelResultados.setOpaque(false);
         panelResultados.add(scroll, BorderLayout.CENTER);
-        constraints.gridx=1;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.BOTH;
-        constraints.anchor=GridBagConstraints.CENTER;
-        add(panelResultados,constraints);
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.anchor = GridBagConstraints.CENTER;
+        add(panelResultados, constraints);
 
         //puntaje
-        Puntaje = new JTextArea(6, 31);
-
+        Puntaje = new JTextArea(7, 31);
 
 
         //boton de salir
         salir = new JButton("salir");
         salir.addActionListener(escucha);
         salir.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        constraints.gridx=1;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_END;
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.LINE_END;
         add(salir, constraints);
 
 
@@ -189,58 +182,90 @@ public class PanelFondo extends JPanel  {
         ayuda = new JButton("ayuda");
         ayuda.setCursor(new Cursor(Cursor.HAND_CURSOR));
         ayuda.addActionListener(escucha);
-        constraints.gridx=0;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_START;
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.LINE_START;
         add(ayuda, constraints);
 
         //inicio
         inicio = new JButton("Inicio");
         inicio.setCursor(new Cursor(Cursor.HAND_CURSOR));
         inicio.addActionListener(escucha);
-        constraints.gridx=1;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_START;
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        constraints.gridwidth = 1;
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.LINE_START;
         add(inicio, constraints);
-
 
 
     }
 
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
 
     }
-    private class Escucha implements ActionListener {
+
+    private class Escucha implements ActionListener, MouseListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (e.getSource()==ayuda) {
-                JOptionPane.showMessageDialog(null, "hola");
+            if (e.getSource() == ayuda) {
+                JOptionPane.showMessageDialog(null, AYUDA);
 
-                    }else if (e.getSource()==salir) {
-                        System.exit(0);
+            } else if (e.getSource() == salir) {
+                System.exit(0);
 
-                         }else if (e.getSource()==inicio) {
-                            panelResultados.removeAll();
-                            panelResultados.add(mensajeSalida);
-                            panelResultados.add(Puntaje);
-                            mensajeSalida.setText("Aquí se dicen la ronda que va");
-                            mensajeSalida.setRows(6);
-                            Puntaje.setText("Aquí se dirá el puntaje que lleva el jugador");
+            } else if (e.getSource() == inicio) {
+                model.tiroInicial();
+                List<Dado> dadosActivos = model.getDadosActivos();
+                List<Dado> dadosInactivos = model.getDadosInactivos();
+
+                //pinta las caras de los dados Activos
+                for (int i = 0; i < dadosActivos.size(); i++) {
+                    imagenDado = new ImageIcon(getClass().getResource("/recursos/" + dadosActivos.get(i).getCara() + ".png"));
+                    dadosActivosJlabel.get(i).setIcon(imagenDado);
+                }
+
+                panelResultados.removeAll();
+                panelResultados.add(mensajeSalida);
+                panelResultados.add(Puntaje);
+                mensajeSalida.setText("Aquí se dicen la ronda que va");
+                mensajeSalida.setRows(6);
+                Puntaje.setText("Aquí se dirá el puntaje que lleva el jugador");
             }
+        }
+
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
 
         }
     }
-
-
 }
-
