@@ -1,6 +1,7 @@
 package myProject;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -163,7 +164,7 @@ public class PanelFondo extends JPanel {
         add(panelResultados, constraints);
 
         //puntaje
-        Puntaje = new JTextArea(7, 31);
+        Puntaje = new JTextArea(7, 25);
 
 
         //boton de salir
@@ -231,14 +232,19 @@ public class PanelFondo extends JPanel {
                 for (int i = 0; i < dadosActivos.size(); i++) {
                     imagenDado = new ImageIcon(getClass().getResource("/recursos/" + dadosActivos.get(i).getCara() + ".png"));
                     dadosActivosJlabel.get(i).setIcon(imagenDado);
+                    dadosActivosJlabel.get(i).addMouseListener(escucha);
+                    dadosActivosJlabel.get(i).setCursor( new Cursor(Cursor.HAND_CURSOR));
+                    dadosActivosJlabel.get(i).setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                    dadosActivosJlabel.get(i).setBorder(new EmptyBorder(0,15,0,15));
                 }
 
                 panelResultados.removeAll();
                 panelResultados.add(mensajeSalida);
                 panelResultados.add(Puntaje);
-                mensajeSalida.setText("Aquí se dicen la ronda que va");
+                mensajeSalida.setText(model.getEstadoToStringRonda()[0]);
                 mensajeSalida.setRows(6);
-                Puntaje.setText("Aquí se dirá el puntaje que lleva el jugador");
+                mensajeSalida.setColumns(25);
+                Puntaje.setText(model.getEstadoToStringPuntos()[0]);
             }
         }
 

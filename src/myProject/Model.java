@@ -24,6 +24,8 @@ public class Model {
         dadosActivos = new ArrayList();
         dadosInactivos = new ArrayList();
         dadosUsados = new ArrayList();
+        stringRonda=1;
+        stringPuntos=1;
 
 
         //Creacion de dados activos
@@ -290,31 +292,31 @@ public class Model {
     public String[] getEstadoToStringRonda() {
         switch (stringRonda) {
             case 1: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Te encuentras en la ronda 1 de Juego, aun "+
-                    "tienes 4 rondas mas para lograr 30 puntos.";
+                    "\nTe encuentras en la ronda 1 de Juego, aun "+
+                    "\ntienes 4 rondas mas para lograr 30 puntos.";
                 break;
             case 2: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Te encuentras en la ronda 2 de Juego, aun "+
-                    "tienes 3 rondas mas para lograr 30 puntos.";
+                    "\nTe encuentras en la ronda 2 de Juego, aun "+
+                    "\ntienes 3 rondas mas para lograr 30 puntos.";
                 break;
             case 3: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Te encuentras en la ronda 3 de Juego, aun "+
-                    "tienes 2 rondas mas para lograr 30 puntos.";
+                    "\nTe encuentras en la ronda 3 de Juego, aun "+
+                    "\ntienes 2 rondas mas para lograr 30 puntos.";
                 break;
             case 4: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Te encuentras en la ronda 4 de Juego, solo "+
-                    "tienes 1 ronda mas para lograr 30 puntos.";
+                    "\nTe encuentras en la ronda 4 de Juego, solo "+
+                    "\ntienes 1 ronda mas para lograr 30 puntos.";
                 break;
             case 5: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Te encuentras en la ronda 5 de Juego, es "+
-                    " la ultima ronda para conseguir 30 puntos";
+                    "\nTe encuentras en la ronda 5 de Juego, es "+
+                    "\nla ultima ronda para conseguir 30 puntos";
                 break;
             case 6: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "FELICITAIONES!! Ganaste al conseguir "+puntos+" puntos";
+                    "\nFELICITAIONES!! Ganaste al conseguir "+puntos+" puntos";
                 break;
             case 7: estadoToStringRonda[0] = "             RONDA DE JUEGO               "+
-                    "Perdiste, solo conseguiste "+puntos+" Y no te quedan "+
-                    "mas rondas de juego.";
+                    "\nPerdiste, solo conseguiste "+puntos+" Y no te quedan "+
+                    "\nmas rondas de juego.";
                 break;
 
         }
@@ -324,11 +326,11 @@ public class Model {
     public String[] getEstadoToStringPuntos() {
         switch (stringPuntos) {
             case 1: estadoToStringPuntos[0] = "                      PUNTAJE                    "+
-                    "Tienes un tienes un acumulado de "+puntos+" puntos.";
+                    "\nTienes un tienes un acumulado de "+puntos+" puntos.";
                 break;
             case 2: estadoToStringPuntos[0] = "                 PUNTAJE                  "+
-                    "Conseguiste un acumulado de "+puntos+" puntos a lo "
-                    +"largo del juego. ";
+                    "\nConseguiste un acumulado de "+puntos+" puntos a lo "
+                    +"\nlargo del juego. ";
                 break;
 
         }
