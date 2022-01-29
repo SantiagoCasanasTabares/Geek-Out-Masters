@@ -5,12 +5,18 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * This class is used for ...
+ * @autor Luisa Maria Cardenas Lopez 1823494 cardenas.luisa@correounivalle.edu.co
+ * @autor Santiago Casañas Tabares 2025301 santiago.casanas@correpunivalle.edu.co
+ * @autor Jesus Adrian Peña Guetio 2025513 jesus.guetio@correounivalle.edu.co
+ * @version v.1.0.0 date:28/01/2022
+ */
 
 public class PanelFondo extends JPanel {
 
@@ -30,9 +36,9 @@ public class PanelFondo extends JPanel {
     private ImageIcon fondo, fondoTitulo, dados, imagenDado;
     private Icon icono;
     private Model model;
-    //private Dado dado;
+    private List<Dado> dadosActivos, dadosUtilizados, dadosInactivos;
     private Header titulo;
-    private JPanel dadosInactivos, dadosUsados, dadosEnJuego, panelResultados;
+    private JPanel dadosInactivosPanel, dadosUsadosPanel, dadosEnJuego, panelResultados;
     private Escucha escucha;
     private JTextArea mensajeSalida, Puntaje;
     private ArrayList<JLabel> dadosActivosJlabel, dadosInactivosJlabel, dadosUsadosJlabel;
@@ -52,13 +58,31 @@ public class PanelFondo extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        //dado = new Dado();
-
         //set up Escucha and Action Listener
         escucha = new Escucha();
         model = new Model();
+        dadosActivosJlabel = new ArrayList();
+        dadosInactivosJlabel = new ArrayList();
+        dadosUsadosJlabel = new ArrayList();
 
-        //set up components
+        //botones
+        salir = new JButton("salir");
+        ayuda = new JButton("ayuda");
+
+        //paneles
+        dadosUsadosPanel = new JPanel();
+        dadosInactivosPanel = new JPanel();
+        dadosEnJuego = new JPanel();
+        panelResultados = new JPanel();
+
+        imagenDado = new ImageIcon(getClass().getResource("/recursos/dado.png"));
+        icono = new ImageIcon(this.imagenDado.getImage().getScaledInstance(80, 80, 60));
+
+        //LISTAS DE DADOS
+        dadosActivos = model.getDadosActivos();
+        dadosUtilizados = model.getDadosUsados();
+        dadosInactivos = model.getDadosInactivos();
+
 
         //titulo
         fondoTitulo = new ImageIcon(getClass().getResource("/recursos/titulo.jpg"));
@@ -68,34 +92,33 @@ public class PanelFondo extends JPanel {
         constraints.gridwidth = 2;
         this.add(titulo, constraints); //Change this line if you change JFrame Container's Layout
 
-        //inicializacion de dados activos
-        imagenDado = new ImageIcon(getClass().getResource("/recursos/dado.png"));
-        icono = new ImageIcon(this.imagenDado.getImage().getScaledInstance(80, 80, 60));
-        dadosActivosJlabel = new ArrayList();
-        dadosInactivosJlabel = new ArrayList();
-        dadosUsadosJlabel = new ArrayList();
 
+        //creación de labels para panel de dados activos
         for (int i = 0; i < 7; i++) {
             JLabel labelTemp = new JLabel();
-            labelTemp.setIcon(icono);
+            labelTemp.addMouseListener(escucha);
+            labelTemp.setCursor( new Cursor(Cursor.HAND_CURSOR));
+            labelTemp.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            labelTemp.setBorder(new EmptyBorder(0,15,0,15));
             dadosActivosJlabel.add(labelTemp);
         }
 
+        //PINTAR DADOS INICIALES
+        pintarDados(dadosActivos, dadosActivosJlabel);
 
-        //dados Usados
-        dadosUsados = new JPanel();
-        dadosUsados.setPreferredSize(new Dimension(388, 260));
+        //PANEL DADOS USADOS
+        dadosUsadosPanel.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledBorderUsados = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados usados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
-        dadosUsados.setBorder(titledBorderUsados);
+        dadosUsadosPanel.setBorder(titledBorderUsados);
         titledBorderUsados.setTitleColor(Color.WHITE);
-        dadosUsados.setOpaque(false);
+        dadosUsadosPanel.setOpaque(false);
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
         //constraints.gridheight=1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
-        add(dadosUsados, constraints);
+        add(dadosUsadosPanel, constraints);
 
         //inicializacion de dados inactivos
         for (int i = 0; i < 3; i++) {
@@ -104,36 +127,32 @@ public class PanelFondo extends JPanel {
             dadosInactivosJlabel.add(labelTemp);
         }
 
-        //dados inactivos
-        dadosInactivos = new JPanel();
-        dadosInactivos.setPreferredSize(new Dimension(388, 260));
+        //PANEL DADOS INACTIVOS
+        dadosInactivosPanel.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledInactivos = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados inactivos", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
-        dadosInactivos.setBorder(titledInactivos);
+        dadosInactivosPanel.setBorder(titledInactivos);
         titledInactivos.setTitleColor(Color.WHITE);
-        dadosInactivos.setOpaque(false);
+        dadosInactivosPanel.setOpaque(false);
 
-        for (int i = 0; i < dadosInactivosJlabel.size(); i++) {
-            dadosInactivos.add(dadosInactivosJlabel.get(i));
-        }
+        agregarLabelsPanel(dadosInactivosJlabel, dadosInactivosPanel);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
         constraints.fill = GridBagConstraints.BOTH;
         constraints.anchor = GridBagConstraints.CENTER;
-        add(dadosInactivos, constraints);
+        add(dadosInactivosPanel, constraints);
 
-        //dados en juego
-        dadosEnJuego = new JPanel();
+
+        //PANEL DADOS EN JUEGO
         dadosEnJuego.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledDadosJuego = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Dados en juego", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         dadosEnJuego.setBorder(titledDadosJuego);
         titledDadosJuego.setTitleColor(Color.WHITE);
         dadosEnJuego.setOpaque(false);
 
-        for (int i = 0; i < dadosActivosJlabel.size(); i++) {
-            dadosEnJuego.add(dadosActivosJlabel.get(i));
-        }
+        //agregamos labels al panel de Dados en juego
+        agregarLabelsPanel(dadosActivosJlabel, dadosEnJuego);
 
         constraints.gridx = 0;
         constraints.gridy = 3;
@@ -148,8 +167,7 @@ public class PanelFondo extends JPanel {
         JScrollPane scroll = new JScrollPane(mensajeSalida);
         mensajeSalida.setEditable(false);
 
-        //panel de resultados
-        panelResultados = new JPanel();
+        //PANEL DE RESULTADOS
         panelResultados.setPreferredSize(new Dimension(388, 260));
         TitledBorder titledPanelResultados = BorderFactory.createTitledBorder(new EtchedBorder(EtchedBorder.LOWERED), "Resultados", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION);
         panelResultados.setBorder(titledPanelResultados);
@@ -166,9 +184,7 @@ public class PanelFondo extends JPanel {
         //puntaje
         Puntaje = new JTextArea(7, 25);
 
-
         //boton de salir
-        salir = new JButton("salir");
         salir.addActionListener(escucha);
         salir.setCursor(new Cursor(Cursor.HAND_CURSOR));
         constraints.gridx = 1;
@@ -180,7 +196,6 @@ public class PanelFondo extends JPanel {
 
 
         //ayuda
-        ayuda = new JButton("ayuda");
         ayuda.setCursor(new Cursor(Cursor.HAND_CURSOR));
         ayuda.addActionListener(escucha);
         constraints.gridx = 0;
@@ -189,27 +204,28 @@ public class PanelFondo extends JPanel {
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.LINE_START;
         add(ayuda, constraints);
-
-        //inicio
-        inicio = new JButton("Inicio");
-        inicio.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        inicio.addActionListener(escucha);
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        constraints.gridwidth = 1;
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(inicio, constraints);
-
-
     }
-
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
 
+    }
+
+    //pinta los dados ingresados
+    public void agregarLabelsPanel(ArrayList<JLabel> labels, JPanel panel){
+        for (int i = 0; i < labels.size(); i++) {
+            panel.add(labels.get(i));
+        }
+    }
+
+    //pinta los dados ingresados
+    public void pintarDados(List<Dado> dados, ArrayList<JLabel> labels){
+        for (int i = 0; i < dados.size(); i++) {
+            imagenDado = new ImageIcon(getClass().getResource("/recursos/" + dados.get(i).getCara() + ".png"));
+            labels.get(i).setIcon(imagenDado);
+        }
     }
 
     private class Escucha implements ActionListener, MouseListener {
@@ -222,22 +238,6 @@ public class PanelFondo extends JPanel {
 
             } else if (e.getSource() == salir) {
                 System.exit(0);
-
-            } else if (e.getSource() == inicio) {
-                model.tiroInicial();
-                List<Dado> dadosActivos = model.getDadosActivos();
-                List<Dado> dadosInactivos = model.getDadosInactivos();
-
-                //pinta las caras de los dados Activos
-                for (int i = 0; i < dadosActivos.size(); i++) {
-                    imagenDado = new ImageIcon(getClass().getResource("/recursos/" + dadosActivos.get(i).getCara() + ".png"));
-                    dadosActivosJlabel.get(i).setIcon(imagenDado);
-                    dadosActivosJlabel.get(i).addMouseListener(escucha);
-                    dadosActivosJlabel.get(i).setCursor( new Cursor(Cursor.HAND_CURSOR));
-                    dadosActivosJlabel.get(i).setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                    dadosActivosJlabel.get(i).setBorder(new EmptyBorder(0,15,0,15));
-                }
-
                 panelResultados.removeAll();
                 panelResultados.add(mensajeSalida);
                 panelResultados.add(Puntaje);
@@ -248,10 +248,37 @@ public class PanelFondo extends JPanel {
             }
         }
 
-
         @Override
         public void mouseClicked(MouseEvent e) {
+            for(int i = 0; i < dadosActivosJlabel.size(); i++) {
+                if (dadosActivosJlabel.get(i) == e.getSource()) {
+                    //usar dado
+                    model.usarDado(dadosActivos.get(i));
+                    //quitamos icono del label
+                    dadosActivosJlabel.get(i).setIcon(null);
+                    //quitamos label del panel
+                    dadosEnJuego.remove(dadosActivosJlabel.get(i));
+                    //quitamos el label
+                    dadosActivosJlabel.remove(i);
+                    //actualizamos nuestras variables para pintar las de nuevo y actualizar el tablero
+                    dadosUtilizados = model.getDadosUsados();
+                    dadosActivos = model.getDadosActivos();
+                    dadosInactivos = model.getDadosInactivos();
 
+                    JLabel labelUsadoTemp = new JLabel();
+                    dadosUsadosJlabel.add(labelUsadoTemp);
+                    agregarLabelsPanel(dadosUsadosJlabel, dadosUsadosPanel);
+
+
+                    //JLabel labelInactivoTemp = new JLabel();
+                    //dadosInactivosPanel.add(labelInactivoTemp);
+
+                    agregarLabelsPanel(dadosUsadosJlabel, dadosUsadosPanel);
+                    pintarDados(dadosUtilizados, dadosUsadosJlabel);
+                    //pintarDados(dadosInactivos, dadosInactivosJlabel);
+                    pintarDados(dadosActivos, dadosActivosJlabel);
+                }
+            }
         }
 
         @Override
@@ -273,5 +300,6 @@ public class PanelFondo extends JPanel {
         public void mouseExited(MouseEvent e) {
 
         }
+
     }
 }

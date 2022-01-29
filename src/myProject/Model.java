@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class is used for ...
+ * @autor Luisa Maria Cardenas Lopez 1823494 cardenas.luisa@correounivalle.edu.co
+ * @autor Santiago Casañas Tabares 2025301 santiago.casanas@correpunivalle.edu.co
+ * @autor Jesus Adrian Peña Guetio 2025513 jesus.guetio@correounivalle.edu.co
+ * @version v.1.0.0 date:28/01/2022
+ */
+
 public class Model {
     private Dado dado, dadoSeleccionado1, dadoSeleccionado2, dadoRelanzado, añadirDado;
     private boolean ganoPartida, terminoRonda;
@@ -26,11 +34,17 @@ public class Model {
         dadosUsados = new ArrayList();
         stringRonda=1;
         stringPuntos=1;
+        dadosUsados = new ArrayList<Dado>();
+        dadoSeleccionado1 = new Dado();
+        dadoSeleccionado2 = new Dado();
+        añadirDado = new Dado();
+        dadoRelanzado = new Dado();
 
 
         //Creacion de dados activos
         for (int i = 0; i<7; i++){
-            Dado dadoTemporal = new Dado();
+            int caraAleatoria = (aleatorio.nextInt(6)+1);
+            Dado dadoTemporal = new Dado(caraAleatoria);
             dadosActivos.add(dadoTemporal);
         }
 
@@ -40,13 +54,14 @@ public class Model {
             //dadoTemporal.setCara(aleatorio.nextInt(6)+1);
             dadosInactivos.add(dadoTemporal);
         }
-        dadosUsados = new ArrayList<Dado>();
-        dadoSeleccionado1 = new Dado();
-        dadoSeleccionado2 = new Dado();
-        añadirDado = new Dado();
-        dadoRelanzado = new Dado();
+    }
 
+    public List<Dado> getDadosUsados(){
+        return this.dadosUsados;
+    }
 
+    public void setDadosUsados(List<Dado> dados){
+        this.dadosUsados = dados;
     }
 
     /**
@@ -205,27 +220,64 @@ public class Model {
     /**
      * Para realizar las acciones de cada cara del dado
      */
-    public void accionesDeLasCaras(){
+    public int accionesDeLasCaras(){
+        int usaste = 0;
 
         if (dado.valorDeLaCara(dadoSeleccionado1)=="Meeple"){
             dadosActivos.remove(dadoSeleccionado1);
             dadosUsados.add(añadirDado);
             relanzarDado(dadoSeleccionado2);
+            usaste=1;
 
         }else if(dado.valorDeLaCara(dadoSeleccionado1)=="Nave"){
             dadosInactivos.add(dado);
             dadosActivos.remove(dadoSeleccionado1);
             dadosUsados.add(añadirDado);
+            usaste=2;
 
         }else if(dado.valorDeLaCara(dadoSeleccionado1)=="Superheroe"){
             caraOpuesta(dadoSeleccionado2);
             dadosActivos.remove(dadoSeleccionado1);
             dadosUsados.add(añadirDado);
+            usaste=3;
 
         }else if(dado.valorDeLaCara(dadoSeleccionado1)=="Corazon"){
             dadoExtra();
             dadosActivos.remove(dadoSeleccionado1);
             dadosUsados.add(añadirDado);
+            usaste=4;
+        }
+        return usaste;
+    }
+
+    public void usarDado(Dado dado){
+        dadosActivos.remove(dado);
+        dadosUsados.add(dado);
+        switch(dado.getCara()){
+            case 1:
+                //relanzarDado(dado);
+                System.out.println("poder Meeple");
+                break;
+            case 2:
+                //poderCohete();
+                System.out.println("poder Cohete");
+                break;
+            case 3:
+                //poderHeroe(dado);
+                System.out.println("poder Heroe");
+                break;
+            case 4:
+                //poderCorazon(dado);
+                System.out.println("poder Corazón");
+                break;
+            case 5:
+                //poderDragon(dado);
+                System.out.println("poder Dragon");
+                break;
+            case 6:
+                //poderCuarentayDos(dado);
+                System.out.println("poder Cuarenta y dos");
+                break;
         }
     }
 
@@ -254,10 +306,23 @@ public class Model {
         return valorCaraOpuesta;
     }
 
-    //meeple
-    public void relanzarDado(Dado dadoARelanzar) {
-        dadosActivos.set(dadoARelanzar.getCara(), dadoRelanzado);
+    /*
+    ******************PODERES**********************
+    */
 
+    //meeple
+    public void relanzarDado(Dado dado) {
+        //dadosActivos.set(dadoARelanzar.getCara(), dadoRelanzado);
+        int dadoAleatorio = (int) Math.random()*this.dadosActivos.size()+1;
+        int caraAleatoria = (int) Math.random()*6+1;
+        dadosActivos.get(dadoAleatorio).setCara(caraAleatoria);
+        System.out.println("relanzaaaando");
+    }
+
+    public void poderCohete() {
+        int dadoAleatorio = (int) Math.random()*this.dadosActivos.size()+1;
+        dadosInactivos.add(this.dadosActivos.get(dadoAleatorio));
+        dadosActivos.remove(this.dadosActivos.get(dadoAleatorio));
     }
 
     //corazon
