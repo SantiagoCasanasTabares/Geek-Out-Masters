@@ -4,19 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class is used for ...
+ * @autor Luisa Maria Cardenas Lopez 1823494 cardenas.luisa@correounivalle.edu.co
+ * @autor Santiago Casañas Tabares 2025301 santiago.casanas@correpunivalle.edu.co
+ * @autor Jesus Adrian Peña Guetio 2025513 jesus.guetio@correounivalle.edu.co
+ * @version v.1.0.0 date:28/01/2022
+ */
+
 public class Dado {
     private int cara;
     private String caraDado;
 
-
     public Dado(){
+    }
 
-        this.cara=cara;
-
+    public Dado(int cara){
+        this.cara = cara;
     }
 
     public int getCara(){
-        return cara;
+        return this.cara;
     }
 
     public String valorDeLaCara(Dado dado){
@@ -39,4 +47,5 @@ public class Dado {
     public void setCara(int cara) {
         this.cara = cara;
     }
+
 }

@@ -8,8 +8,10 @@ import java.awt.event.MouseAdapter;
 
 /**
  * This class is used for ...
- * @autor Paola-J Rodriguez-C paola.rodriguez@correounivalle.edu.co
- * @version v.1.0.0 date:21/11/2021
+ * @autor Luisa Maria Cardenas Lopez 1823494 cardenas.luisa@correounivalle.edu.co
+ * @autor Santiago Casañas Tabares 2025301 santiago.casanas@correpunivalle.edu.co
+ * @autor Jesus Adrian Peña Guetio 2025513 jesus.guetio@correounivalle.edu.co
+ * @version v.1.0.0 date:28/01/2022
  */
 public class GUI extends JFrame  {
 
